@@ -5,6 +5,10 @@ ARG PYTORCH_CU_VERSION=118
 
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu${UBUNTU_VERSION}
 
+# 定义环境变量
+ARG VLLM_VERSION
+ARG PYTORCH_CU_VERSION
+
 # 安装python依赖库
 RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.aliyun.com@g" /etc/apt/sources.list && \
   sed -i "s@http://.*security.ubuntu.com@https://mirrors.aliyun.com@g" /etc/apt/sources.list && \
