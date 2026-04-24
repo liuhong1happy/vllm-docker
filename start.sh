@@ -20,7 +20,7 @@ fi
 # 启动容器
 docker run -d --name ${DOCKER_CONTAINER_NAME} \
   -v /etc/localtime:/etc/localtime \
-  -v /Users/${USER}/.cache/modelscope:/root/.cache/modelscope \
+  -v /home/${USER}/.cache/modelscope:/root/.cache/modelscope \
   --gpus all \
   -p 9999:8000 \
   ${DOCKER_IMAGE} \
