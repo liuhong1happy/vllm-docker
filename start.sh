@@ -13,15 +13,16 @@ MODEL_NAME=Qwen/Qwen3.5-4B
 API_KEY=sk-12345678
 
 # 如果容器存在，先停止
-if docker ps -aq | grep -q "${DOCKER_CONTAINER_NAME}"; then
+if docker ps -a | grep "${DOCKER_CONTAINER_NAME}"; then
   docker rm -f ${DOCKER_CONTAINER_NAME}
 fi
 
 # 启动容器
 docker run -d --name ${DOCKER_CONTAINER_NAME} \
+  --runtime=nvidia \
+  --gpus all \
   -v /etc/localtime:/etc/localtime \
   -v /home/${USER}/.cache/modelscope:/root/.cache/modelscope \
-  --gpus all \
   -p 9999:8000 \
   ${DOCKER_IMAGE} \
   --model ${MODEL_NAME} \
