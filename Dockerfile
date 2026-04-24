@@ -3,6 +3,9 @@ ARG UBUNTU_VERSION=22.04
 ARG VLLM_VERSION=0.19.1
 ARG PYTORCH_CU_VERSION=118 
 ARG CUDNN=cudnn
+ARG PYTORCH_EXTRA_INDEX_URL=https://download.pytorch.org/whl
+ARG PYPI_INDEX_URL=https://mirrors.aliyun.com/pypi
+ARG PYPI_TRUSTED_HOST=mirrors.aliyun.com
 
 FROM nvidia/cuda:${CUDA_VERSION}-${CUDNN}-devel-ubuntu${UBUNTU_VERSION}
 
@@ -20,13 +23,13 @@ RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.aliyun.com@g" /etc/apt
   apt-get install -y python3 python3-dev python3-pip 
 
 # 安装vllm
-RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
-  pip3 config set install.trusted-host mirrors.aliyun.com && pip3 install modelscope
+RUN pip3 config set global.index-url ${PYPI_INDEX_URL}/simple/ && \
+  pip3 config set install.trusted-host ${PYPI_TRUSTED_HOST} && pip3 install modelscope
 
-# RUN pip3 install flashinfer-cubin==0.6.6 --extra-index-url https://download.pytorch.org/whl/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install nvidia-cublas-cu12==12.8.4.1 --extra-index-url https://download.pytorch.org/whl/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install triton==3.6.0 --extra-index-url https://download.pytorch.org/whl/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install torch==2.10.0 --extra-index-url https://download.pytorch.org/whl/cu${PYTORCH_CU_VERSION}
-RUN pip3 install vllm==${VLLM_VERSION} --extra-index-url https://download.pytorch.org/whl/cu${PYTORCH_CU_VERSION}
+# RUN pip3 install flashinfer-cubin==0.6.6 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
+# RUN pip3 install nvidia-cublas-cu12==12.8.4.1 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
+# RUN pip3 install triton==3.6.0 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
+# RUN pip3 install torch==2.10.0 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
+RUN pip3 install vllm==${VLLM_VERSION} --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
 
 ENTRYPOINT ["vllm", "serve"]
