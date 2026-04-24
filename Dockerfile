@@ -27,7 +27,9 @@ RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.aliyun.com@g" /etc/apt
 
 # 安装vllm
 RUN pip3 config set global.index-url ${PYPI_INDEX_URL}/simple/ && \
-  pip3 config set install.trusted-host ${PYPI_TRUSTED_HOST} && pip3 install modelscope
+  pip3 config set install.trusted-host ${PYPI_TRUSTED_HOST} && \
+  pip3 config set global.timeout 100 && \
+  pip3 install modelscope
 
 # 安装vllm依赖库
 RUN pip3 install vllm==${VLLM_VERSION} --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
