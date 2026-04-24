@@ -26,10 +26,7 @@ RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.aliyun.com@g" /etc/apt
 RUN pip3 config set global.index-url ${PYPI_INDEX_URL}/simple/ && \
   pip3 config set install.trusted-host ${PYPI_TRUSTED_HOST} && pip3 install modelscope
 
-# RUN pip3 install flashinfer-cubin==0.6.6 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install nvidia-cublas-cu12==12.8.4.1 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install triton==3.6.0 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
-# RUN pip3 install torch==2.10.0 --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
+# 安装vllm依赖库
 RUN pip3 install vllm==${VLLM_VERSION} --extra-index-url ${PYTORCH_EXTRA_INDEX_URL}/cu${PYTORCH_CU_VERSION}
 
 ENTRYPOINT ["vllm", "serve"]
