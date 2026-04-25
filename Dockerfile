@@ -1,13 +1,17 @@
+# 经典版本 11.7 12.1 12.4 12.6 12.8 12.8 13.0
 ARG CUDA_VERSION=12.4.1
 ARG UBUNTU_VERSION=22.04
 ARG VLLM_VERSION=0.19.1
 ARG PYTORCH_CU_VERSION=118 
+# cudnn or cudnn8
 ARG CUDNN=cudnn
 ARG PYTORCH_EXTRA_INDEX_URL=https://download.pytorch.org/whl
 ARG PYPI_INDEX_URL=https://mirrors.aliyun.com/pypi
 ARG PYPI_TRUSTED_HOST=mirrors.aliyun.com
+ # devel or runtime
+ARG CUDA_ENVIRONMENT=devel 
 
-FROM nvidia/cuda:${CUDA_VERSION}-${CUDNN}-devel-ubuntu${UBUNTU_VERSION}
+FROM nvidia/cuda:${CUDA_VERSION}-${CUDNN}-${CUDA_ENVIRONMENT}-ubuntu${UBUNTU_VERSION}
 
 # 定义环境变量
 ARG VLLM_VERSION
